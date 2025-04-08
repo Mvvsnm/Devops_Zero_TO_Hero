@@ -1,1 +1,72 @@
+1.Install Ansible
+
+* sudo apt update
+* sudo apt install ansible
+
+2.Setup passwordless authentication
+
+*ssh-keygen
+
+3.Ansible adhoc commands(when we want to excute 1 or 2 tasks)
+
+*ansible -i inventory 172.31.92.248(ip address of target server)
+i=location of inventoryfile
+inventory= name of inventoryfile
+
+*ansible -i inventory all -m "shell" -a "touch devopsClass" (all =all ip address of target server)
+*ansible -i inventory all -m "shell" -a "nproc"
+-m=module
+-a=argument
+
+4.Ansible playbook(when we want to excute multiple tasks)
+
+1* Playbooks are written in yml formate(vi  first-playbook.yml)
+
+2* (---
+- name: Install and Start nginx    ->playbook
+  hosts: all
+  become: root
+
+tasks:
+ - name: Install nginx  ->t1
+   apt: 
+     name: nginx
+     state: present 
+   (shell: apt install nginx )
+
+  - name: start nginx   ->t2
+    service:
+       name: nginx
+       state: started
+    (shell: systemctl start nginx))
+
+*ansible ->ansible use to run ansible adhoc commands
+*ansible-playbook  ->use to run ansible files
+
+3* ansible-playbook -i inventory first-playbook.yml(Execute command)
+4* Systemctl status nginx
+
+---
+- name: Install and Start nginx
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+    - name: Start nginx
+      service:
+        name: nginx
+        state: started
+
+5.Ansible role
+*ansible-galaxcy role init rolenmae
+
+
+
+
+
+
 
